@@ -1,0 +1,35 @@
+INSTALL=@INSTALL@
+CC=@CC@
+LIBS=@LIBS@
+CFLAGS = @CFLAGS@
+OBJECTS=nbtscan.o statusq.o range.o list.o
+DEFS=@DEFS@
+TARGET=@TARGET@
+
+prefix      = @prefix@
+exec_prefix = @exec_prefix@
+BINDIR      = @bindir@
+
+nbtscan: $(OBJECTS)
+	$(CC) $(CFLAGS) -o nbtscan $(OBJECTS) $(LIBS)
+
+install:
+	$(INSTALL) $(TARGET) $(BINDIR)/$(TARGET)
+
+nbtscan.o: nbtscan.c statusq.h range.h list.h
+	$(CC) $(CFLAGS) $(DEFS) -c nbtscan.c
+
+statusq.o: statusq.c statusq.h
+	$(CC) $(CFLAGS) $(DEFS) -c statusq.c
+
+range.o: range.c range.h
+	$(CC) $(CFLAGS) $(DEFS) -c range.c
+
+list.o: list.c list.h
+	$(CC) $(CFLAGS) $(DEFS) -c list.c
+
+clean:
+	-rm $(OBJECTS) nbtscan
+
+distclean: clean
+	-rm config.cache config.log config.status Makefile
